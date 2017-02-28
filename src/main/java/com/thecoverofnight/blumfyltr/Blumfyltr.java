@@ -28,41 +28,41 @@ public class Blumfyltr {
 	
 	// TODO JSON handler for the front end server
 	
-	ArrayList<NameedStringBloomFilter> chainedFilters = new ArrayList<NameedStringBloomFilter>();
+	ArrayList<NamedStringBloomFilter> chainedFilters = new ArrayList<NamedStringBloomFilter>();
 	
-	public NameedStringBloomFilter newBFTimeName(String bfname) throws IOException{
+	public NamedStringBloomFilter newBFTimeName(String bfname) throws IOException{
 		return newBFTimeName(bfname, this.defaultInsertions, this.defaultFpp);
 	}
 	
-	public NameedStringBloomFilter newBFTimeName(String bfname, int insertions, double fpp) throws IOException{
-		NameedStringBloomFilter bf = new NameedStringBloomFilter(bfname, baseDirectory, insertions, fpp);
+	public NamedStringBloomFilter newBFTimeName(String bfname, int insertions, double fpp) throws IOException{
+		NamedStringBloomFilter bf = new NamedStringBloomFilter(bfname, baseDirectory, insertions, fpp);
 		addNewNamedStringBloomFilter(bf);
 		return bf;
 	}
 	
-	public NameedStringBloomFilter newBFTimeNameNow(int insertions, double fpp) throws IOException {
+	public NamedStringBloomFilter newBFTimeNameNow(int insertions, double fpp) throws IOException {
 		ZonedDateTime now = ZonedDateTime.now( ZoneOffset.UTC ).withSecond(0).withNano(0);
 		String bfname = now.format(DateTimeFormatter.ISO_INSTANT);
 		return newBFTimeName(bfname, insertions, fpp);
 	}
 	
-	public NameedStringBloomFilter newBFTimeNameNowNoMinute(int insertions, double fpp) throws IOException {
+	public NamedStringBloomFilter newBFTimeNameNowNoMinute(int insertions, double fpp) throws IOException {
 		ZonedDateTime now = ZonedDateTime.now( ZoneOffset.UTC ).withSecond(0).withNano(0).withMinute(0);
 		String bfname = now.format(DateTimeFormatter.ISO_INSTANT);
 		return newBFTimeName(bfname, insertions, fpp);
 	}
 	
-	public NameedStringBloomFilter newBFTimeNameNowNoHour(int insertions, double fpp) throws IOException {
+	public NamedStringBloomFilter newBFTimeNameNowNoHour(int insertions, double fpp) throws IOException {
 		ZonedDateTime now = ZonedDateTime.now( ZoneOffset.UTC ).withSecond(0).withNano(0).withMinute(0).withHour(0);
 		String bfname = now.format(DateTimeFormatter.ISO_INSTANT);
 		return newBFTimeName(bfname, insertions, fpp);
 	}
 	
-	public void addNewNamedStringBloomFilter(NameedStringBloomFilter bf) throws IOException {
+	public void addNewNamedStringBloomFilter(NamedStringBloomFilter bf) throws IOException {
 		synchronized (chainedFilters) {
 			chainedFilters.add(bf);
 			if (chainedFilters.size() >= maxNumFilters) {
-				NameedStringBloomFilter obf = chainedFilters.remove(maxNumFilters);
+				NamedStringBloomFilter obf = chainedFilters.remove(maxNumFilters);
 				if (saveOldFilters){
 					obf.save();
 				}
@@ -96,7 +96,7 @@ public class Blumfyltr {
 			throw new Exception("No BloomFilters in the chain");
 		}
 		boolean result = false;
-		for (NameedStringBloomFilter bf : chainedFilters) {
+		for (NamedStringBloomFilter bf : chainedFilters) {
 			result = bf.check(key);
 			if (result) break;
 		}
@@ -108,7 +108,7 @@ public class Blumfyltr {
 			throw new Exception("No BloomFilters in the chain");
 		}
 		String bfname = "";
-		for (NameedStringBloomFilter bf : chainedFilters) {
+		for (NamedStringBloomFilter bf : chainedFilters) {
 			boolean result = bf.check(key);
 			if (result) 
 				bfname = bf.getName();
@@ -121,7 +121,7 @@ public class Blumfyltr {
 			throw new Exception("No BloomFilters in the chain");
 		}
 		ArrayList<String> bfnames = new ArrayList<String>();
-		for (NameedStringBloomFilter bf : chainedFilters) {
+		for (NamedStringBloomFilter bf : chainedFilters) {
 			boolean result = bf.check(key);
 			if (result) 
 				bfnames.add(bf.getName());
@@ -132,6 +132,6 @@ public class Blumfyltr {
 	
 	
 	public static void main(String[] args) {
-		NameedStringBloomFilter nbf = new NameedStringBloomFilter();	
+		NamedStringBloomFilter nbf = new NamedStringBloomFilter();	
 	}
 }
