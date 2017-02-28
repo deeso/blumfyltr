@@ -8,6 +8,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import org.json.JSONObject;;
+
 public class Blumfyltr {
 	
 	
@@ -131,7 +133,9 @@ public class Blumfyltr {
 	
 	
 	
-	public static void main(String[] args) {
-		NamedStringBloomFilter nbf = new NamedStringBloomFilter();	
+	public static void main(String[] args) throws JSONException {
+		NamedStringBloomFilter nbf = new NamedStringBloomFilter();
+        String genreJson = "";
+        JSONObject json = new JSONObject(genreJson);
 	}
 }
