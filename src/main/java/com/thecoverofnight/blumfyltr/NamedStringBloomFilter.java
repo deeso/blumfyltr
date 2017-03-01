@@ -59,7 +59,7 @@ public class NamedStringBloomFilter {
 	public static NamedStringBloomFilter load(String name, String baseDir)  throws IOException{
 		return new NamedStringBloomFilter(name, baseDir);
 	}
-	private NamedStringBloomFilter(String name, String baseDir) throws IOException {
+	private NamedStringBloomFilter(String name, String baseDir) throws Exception {
 		this.name = name;
 		this.baseDir = baseDir;
 		try {
@@ -68,11 +68,13 @@ public class NamedStringBloomFilter {
 			FileInputStream stream = new FileInputStream(filePath.toString());
 			bloomFilter = 
 				    BloomFilter.readFrom(stream, Funnels.stringFunnel(Charset.defaultCharset()));
-
+			stream.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw e;
 		}
+		// FIXME the hash functions between the loaded file and this instance may not match
+		throw new Exception("Dont use this yet.");
 		
 	}
 	
@@ -110,6 +112,7 @@ public class NamedStringBloomFilter {
 			@SuppressWarnings("resource")
 			FileOutputStream stream = new FileOutputStream(filePath.toString());
 			bloomFilter.writeTo(stream);
+			stream.close();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -120,5 +123,9 @@ public class NamedStringBloomFilter {
 
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String string) {
+		name = string;
 	}
 }

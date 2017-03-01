@@ -75,11 +75,21 @@ public class NamedStringBloomFilterTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		nsbf_loaded.setName(test_bf_name+"-copy");
 		assertTrue("Failed to Load a BF file", nsbf_loaded != null);
 		assertFalse("Found to 'test1'", nsbf_loaded.check("test1"));
+		//assertTrue("Failed to Load a BF file", nsbf_loaded == nsbf);
 		boolean x = nsbf_loaded.check("test");
-		assertTrue("Found 'test'", x);
+		
+		nsbf_loaded.save();
+		NamedStringBloomFilter nsbf3 = new NamedStringBloomFilter(test_bf_name+'3', createdFolder.getAbsolutePath(), 100, 0.00001);
+		nsbf3.save();
+			File filePath = path.toFile();
+			assertTrue("File did not exist after save.", filePath.exists());
 
+		assertTrue("Failed to find 'test'", x);
+
+		
 	}
 
 }
