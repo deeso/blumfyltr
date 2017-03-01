@@ -8,6 +8,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import org.json.JSONException;
 import org.json.JSONObject;;
 
 public class Blumfyltr {
@@ -83,13 +84,14 @@ public class Blumfyltr {
 	public boolean check (String key, boolean add) throws Exception {
 		boolean res = false;
 		// FIXME: this is a bottlnece
-		synchronized (chainedFilters) {
+		
 			res = checkFilters(key);
 			// no need to check length, exception happens if no filters exist
-			if (add) {
-				res = chainedFilters.get(0).add(key);
+			synchronized (chainedFilters) {
+				if (add && !chainedFilters.get(0).check(key)) {
+					res = chainedFilters.get(0).add(key);
+				}
 			}
-		}
 		return res;
 	}
 		
