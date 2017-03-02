@@ -51,7 +51,7 @@ public class NamedStringBloomFilterTest {
 	}
 	
 	@Test
-	public void newNamedBloomFilterTemp() throws IOException{
+	public void newNamedBloomFilterTemp() throws Exception{
 		String test_bf_name = "test-name.bf";
 		File createdFolder = folder.newFolder("baseDir");
 		Path path = Paths.get(createdFolder.getAbsolutePath(), test_bf_name);

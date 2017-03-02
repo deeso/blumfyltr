@@ -56,8 +56,14 @@ public class NamedStringBloomFilter {
 	}
 	
 	
-	public static NamedStringBloomFilter load(String name, String baseDir)  throws IOException{
-		return new NamedStringBloomFilter(name, baseDir);
+	public static NamedStringBloomFilter load(String name, String baseDir)  throws Exception{
+		try {
+			return new NamedStringBloomFilter(name, baseDir);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	private NamedStringBloomFilter(String name, String baseDir) throws Exception {
 		this.name = name;
