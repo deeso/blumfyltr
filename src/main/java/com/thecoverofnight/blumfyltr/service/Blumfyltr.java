@@ -1,4 +1,4 @@
-package com.thecoverofnight.blumfyltr;
+package com.thecoverofnight.blumfyltr.service;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -9,7 +9,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import org.json.JSONException;
-import org.json.JSONObject;;
+import org.json.JSONObject;
+
+import com.thecoverofnight.blumfyltr.bloomfilters.NamedStringBloomFilter;;
 
 public class Blumfyltr {
 	

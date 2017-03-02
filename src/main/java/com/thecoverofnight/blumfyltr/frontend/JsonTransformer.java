@@ -1,4 +1,4 @@
-package com.thecoverofnight.blumfyltr;
+package com.thecoverofnight.blumfyltr.frontend;
 
 
 import spark.ResponseTransformer;

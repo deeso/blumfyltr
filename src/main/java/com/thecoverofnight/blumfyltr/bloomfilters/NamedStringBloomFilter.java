@@ -1,4 +1,4 @@
-package com.thecoverofnight.blumfyltr;
+package com.thecoverofnight.blumfyltr.bloomfilters;
 
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnel;
@@ -13,8 +13,10 @@ import java.io.ObjectOutputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.HashMap;
 
-public class NamedStringBloomFilter {
+public class NamedStringBloomFilter implements BloomFilterInterface{
 	String name = null;
 	String baseDir = null;
 	private BloomFilter<CharSequence> bloomFilter = null;
@@ -133,5 +135,34 @@ public class NamedStringBloomFilter {
 
 	public void setName(String string) {
 		name = string;
+	}
+
+	@Override
+	public Boolean checkKey(String key) {
+		return check(key);
+	}
+
+	@Override
+	public Boolean addKey(String key) {
+		return add(key);
+	}
+
+	@Override
+	public HashMap<String, Boolean> checkKeys(Collection<String> keys) {
+		HashMap<String, Boolean> results = new HashMap<String, Boolean>();
+		for (String key: keys){
+			results.put(key, checkKey(key));
+		}
+		return results;
+	}
+
+	@Override
+	public HashMap<String, Boolean> addKeys(Collection<String> keys) {
+		HashMap<String, Boolean> results = new HashMap<String, Boolean>();
+		for (String key: keys){
+			results.put(key, addKey(key));
+		}
+		return results;
+
 	}
 }

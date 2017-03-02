@@ -15,7 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.thecoverofnight.blumfyltr.NamedStringBloomFilter;
+import com.thecoverofnight.blumfyltr.bloomfilters.NamedStringBloomFilter;
 
 public class NamedStringBloomFilterTest {
 	@Rule
